@@ -45,8 +45,6 @@ vector<vector<double> > dot(vector<vector<double> > A, vector<vector<double> > B
             temp.push_back(sum);
         }
         result.push_back(temp);
-        //cout << "adding temp of size: " << temp.size() << endl;
-        //cout << "new size: " << result.size() << endl;
     }
 
     return result;
@@ -80,8 +78,6 @@ vector<double> dot(vector<vector<double> > A, vector<double> B) {
             }
         }
         result.push_back(sum);
-        //cout << "adding temp of size: " << temp.size() << endl;
-        //cout << "new size: " << result.size() << endl;
     }
 
     return result;
@@ -92,8 +88,6 @@ void printArr(vector<vector<double> > arr) {
     int len = arr.size();
     int wid = arr[0].size();
 
-    //cout << len << endl;
-    //cout << wid << endl;
     for (vector<vector <double> >::size_type i=0; i<len; ++i) {
         for (vector<vector<double> >::size_type j=0; j<wid; ++j){
             cout << arr[i][j] << " ";
@@ -120,20 +114,20 @@ vector<vector<double> > rotate(vector<vector<double> > arr, double theta, vector
 
     int numPoints = arr.size();
 
-    vector<vector<double> > matrixK = {{0,-axis[0],axis[1]},
+    vector<vector<double> > matrixK = {{0,-axis[2],axis[1]},
                                         {axis[2],0,-axis[0]},
                                         {-axis[1],axis[0],0}};
 
-    cout << "matrixK:" << endl;
-    printArr(matrixK);
+    //cout << "matrixK:" << endl;
+    //printArr(matrixK);
 
     vector<vector<double> > KK;
     KK.reserve(3);
 
     KK = dot(matrixK, matrixK);
 
-    cout << "KK:" << endl;
-    printArr(KK);
+    //cout << "KK:" << endl;
+    //printArr(KK);
 
     vector<vector<double> > rotMat;
     rotMat.reserve(3);
@@ -161,23 +155,12 @@ vector<vector<double> > rotate(vector<vector<double> > arr, double theta, vector
         //cout << "new size: " << rotMat.size() << endl;
     }
 
-    cout << "rotMat:" << endl;
-    printArr(rotMat);
+    //cout << "rotMat:" << endl;
+    //printArr(rotMat);
 
     vector<vector<double> > output;
     output.reserve(numPoints);
 
-
-    // Rotate the original array
-    //for (int i=0; i<3; i++) {
-    //    for (int j=0; j<3; j++) {
-    //        for (int k=0; k<arrLen; k++) {
-    //            temp_v[k] = arr[i][k]*rotMat[k][j];
-    //        }
-    //        output.push_back(temp_v);
-    //    }
-    //}
-    
     for (vector<vector<double> >::size_type i=0; i<numPoints; ++i) {
         output.push_back(dot(rotMat, arr[i]));
     }
@@ -187,18 +170,12 @@ vector<vector<double> > rotate(vector<vector<double> > arr, double theta, vector
 
 int main() {
 
-    //double *test[5];
-
-    //test[0] = new double[3] {1,0,0};
-    //test[1] = new double[3] {0,1,0};
-    //test[2] = new double[3] {-1,0,0};
-    //test[3] = new double[3] {0,-1,0};
-    //test[4] = new double[3] {0,0,0};
-
-    vector<double> axis = {0,0,1};
+    vector<double> axis;
 
     vector<vector<double> > test_v;
 
+    // TEST 1: z-axis rotation
+    axis = {0,0,1};
     test_v.push_back(vector<double> {0,0,0});
     test_v.push_back(vector<double> {0,-1,0});
     test_v.push_back(vector<double> {-1,0,0});
@@ -214,7 +191,56 @@ int main() {
     cout << "After:" << endl;
     printArr(output);
 
-    //for (int i=0; i<5; i++) {
-    //    delete test[i];
-    //}
+    // TEST 2: y-axis rotation
+    axis = {0,1,0};
+    test_v.clear();
+    test_v.push_back(vector<double> {0,0,0});
+    test_v.push_back(vector<double> {-1,0,0});
+    test_v.push_back(vector<double> {1,0,0});
+    test_v.push_back(vector<double> {0,0,-1});
+    test_v.push_back(vector<double> {0,0,1});
+
+    cout << "Before:" << endl;
+    printArr(test_v);
+
+    output = rotate(test_v, M_PI/4, axis);
+
+    cout << "After:" << endl;
+    printArr(output);
+
+    // TEST 3: x-axis rotation
+    axis = {1,0,0};
+    test_v.clear();
+    test_v.push_back(vector<double> {0,0,0});
+    test_v.push_back(vector<double> {0,1,0});
+    test_v.push_back(vector<double> {0,-1,0});
+    test_v.push_back(vector<double> {0,0,-1});
+    test_v.push_back(vector<double> {0,0,1});
+
+    cout << "Before:" << endl;
+    printArr(test_v);
+
+    output = rotate(test_v, M_PI/4, axis);
+
+    cout << "After:" << endl;
+    printArr(output);
+
+    // TEST 3: arbitrary axis rotation
+    axis = {1,1,1};
+    test_v.clear();
+    test_v.push_back(vector<double> {0,0,0});
+    test_v.push_back(vector<double> {1,0,0});
+    test_v.push_back(vector<double> {0,1,0});
+    test_v.push_back(vector<double> {0,0,1});
+    test_v.push_back(vector<double> {1,1,1});
+
+    cout << "Before:" << endl;
+    printArr(test_v);
+
+    output = rotate(test_v, M_PI/4, axis);
+
+    cout << "After:" << endl;
+    printArr(output);
+
+
 }
