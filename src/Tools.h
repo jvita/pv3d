@@ -8,6 +8,8 @@ using namespace std;
 
 namespace Tools {
 
+    vector<dvec_t> joinArrays(vector<dvec_t>, vector<dvec_t>);
+
     void addToVector(dvec_t&, double);
 
     void multiplyVector(dvec_t&, double);

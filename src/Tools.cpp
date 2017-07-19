@@ -17,6 +17,14 @@ using namespace std;
 
 namespace Tools {
 
+    vector<dvec_t> joinArrays(vector<dvec_t> a1, vector<dvec_t> a2) {
+        for (vector<dvec_t>::size_type i=0; i<a2.size(); ++i) {
+            a1.push_back(a2[i]);
+        }
+
+        return a1;
+    }
+
     void addToVector(dvec_t &v, double x) {
         for (vector<dvec_t>::size_type i=0; i<v.size(); ++i) {
             v[i] = v[i]+x;
