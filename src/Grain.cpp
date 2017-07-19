@@ -39,20 +39,20 @@ namespace Grain {
         dvec_t temp;
 
         // Initialize basis types
-        for (vector<dvec_t>::size_type i=0; i<basis.size(); ++i) {
+        for (vector<dvec_t>::size_type i=0; i<basis.size(); i++) {
             basis[i].insert(basis[i].begin(), type);
         }
 
         vector<dvec_t> grain = basis;
 
         // For all directions
-        for (vector<dvec_t>::size_type i=0; i<dimensions.size(); ++i) {
+        for (vector<dvec_t>::size_type i=0; i<dimensions.size(); i++) {
             numCells = static_cast<int>(ceil(dimensions[i]/latConst));
 
             // For each cell
-            for (int j=1; j<numCells; ++j) {
+            for (int j=1; j<numCells; j++) {
                 // For each atom in basis
-                for (vector<dvec_t>::size_type k=0; k<basis.size(); ++k) {
+                for (vector<dvec_t>::size_type k=0; k<basis.size(); k++) {
                     temp = basis[k];
                     temp[i+1] += latConst*j;
                     grain.push_back(temp);

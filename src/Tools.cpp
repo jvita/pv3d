@@ -18,7 +18,7 @@ using namespace std;
 namespace Tools {
 
     vector<dvec_t> joinArrays(vector<dvec_t> a1, vector<dvec_t> a2) {
-        for (vector<dvec_t>::size_type i=0; i<a2.size(); ++i) {
+        for (vector<dvec_t>::size_type i=0; i<a2.size(); i++) {
             a1.push_back(a2[i]);
         }
 
@@ -26,13 +26,13 @@ namespace Tools {
     }
 
     void addToVector(dvec_t &v, double x) {
-        for (vector<dvec_t>::size_type i=0; i<v.size(); ++i) {
+        for (vector<dvec_t>::size_type i=0; i<v.size(); i++) {
             v[i] = v[i]+x;
         }
     }
 
     void multiplyVector(dvec_t &v, double x) {
-        for (vector<dvec_t>::size_type i=0; i<v.size(); ++i) {
+        for (vector<dvec_t>::size_type i=0; i<v.size(); i++) {
             v[i] = v[i]*x;
         }
     }
@@ -112,8 +112,8 @@ namespace Tools {
         vector<dvec_t>::size_type len = arr.size();
         vector<dvec_t>::size_type wid = arr[0].size();
 
-        for (vector<dvec_t>::size_type i=0; i<len; ++i) {
-            for (vector<dvec_t>::size_type j=0; j<wid; ++j){
+        for (vector<dvec_t>::size_type i=0; i<len; i++) {
+            for (vector<dvec_t>::size_type j=0; j<wid; j++){
                 cout << arr[i][j] << " ";
             }
             cout << endl;
@@ -167,7 +167,7 @@ namespace Tools {
         output.reserve(numPoints);
 
         for (vector<dvec_t>::size_type i=0; i< static_cast<vector<dvec_t>::
-                size_type>(numPoints); ++i) {
+                size_type>(numPoints); i++) {
             output.push_back(dot(rotMat, arr[i]));
         }
 

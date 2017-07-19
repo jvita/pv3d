@@ -8,12 +8,40 @@
 
 #include <iostream>
 #include <cmath>
+#include <cstdlib>
+#include <time.h>
 #include "define.h"
 #include "Tools.h"
 #include "Grain.h"
 #include "Lammps.h"
 
 using namespace std;
+
+namespace Pv3d {
+
+    vector<dvec_t> genCenters(int nCenters, dvec_t boxDims) {
+        vector<dvec_t> centers;
+
+        srand(time(NULL));
+
+        for (int i=0; i<nCenters; i++) {
+            dvec_t temp;
+            temp.reserve(3);
+
+            for (int j=0; j<3; j++) {
+                double rnd;
+                
+                rnd = static_cast<double>(rand()) / RAND_MAX;
+                rnd *= boxDims[j];
+                temp.push_back(rnd);
+            }
+
+            centers.push_back(temp);
+        }
+
+        return centers;
+    }
+}
 
 int main() {
 
@@ -110,7 +138,14 @@ int main() {
     basis.reserve(8);
 
     basis.push_back(dvec_t {0,0,0});
-    basis.push_back(dvec_t {0.5,0.5,0.5});
+    //basis.push_back(dvec_t {0.5,0.5,0.5});
+
+    vector<dvec_t> basis2;
+    basis2.reserve(8);
+
+    //basis2.push_back(dvec_t {0,0,0});
+    basis2.push_back(dvec_t {0.5,0.5,0.5});
+ 
     //basis.push_back(dvec_t {1,0,0});
     //basis.push_back(dvec_t {0,1,0});
     //basis.push_back(dvec_t {0,0,1});
@@ -123,12 +158,15 @@ int main() {
     dvec_t dimensions = {10,10,10};
     double latConst = 5.0;
 
-    vector<dvec_t> grain;
+    vector<dvec_t> grain1;
+    vector<dvec_t> grain2;
 
-    grain = Grain::genGrain(center, dimensions, basis, latConst, 1.0);
+    grain1 = Grain::genGrain(center, dimensions, basis, latConst, 1.0);
+    grain2 = Grain::genGrain(center, dimensions, basis2, latConst, 2.0);
+    grain1 = Tools::joinArrays(grain1, grain2);
 
-    cout << "Before rotation" << endl;
-    Tools::printArr(grain);
+    //cout << "Before rotation" << endl;
+    //Tools::printArr(grain);
 
     //dvec_t axis = {0,0,1};
     //grain = Tools::rotate(grain, M_PI/2, axis);
@@ -136,5 +174,10 @@ int main() {
     //cout << "After rotation" << endl;
     //Tools::printArr(grain);
     
-    //Lammps::writeData("data.test", grain);
+    Lammps::writeData("data.test", grain1);
+
+    int nCenters = 5;
+    vector<dvec_t> centers = Pv3d::genCenters(nCenters, dimensions);
+
+    Tools::printArr(centers);
 }

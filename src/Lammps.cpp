@@ -40,7 +40,7 @@ namespace Lammps {
 
         nAtoms = static_cast<int>(arr.size());
 
-        for (vector<dvec_t>::size_type i=0; i<arr.size(); ++i) {
+        for (vector<dvec_t>::size_type i=0; i<arr.size(); i++) {
             temp = arr[i];
 
             if (temp[0]>nTypes)
@@ -77,7 +77,7 @@ namespace Lammps {
         fprintf(outfile, "Atoms # 'atomic'\n");
         fprintf(outfile, "\n");
 
-        for (vector<dvec_t>::size_type i=0; i<arr.size(); ++i) {
+        for (vector<dvec_t>::size_type i=0; i<arr.size(); i++) {
             temp = arr[i];
             fprintf(outfile, "%d %d %f %f %f\n", static_cast<int>(i)+1,
                     static_cast<int>(temp[0]), temp[1], temp[2], temp[3]);
