@@ -144,7 +144,8 @@ vector<doublev_t> rotate(vector<doublev_t> arr, double theta, doublev_t axis) {
     vector<doublev_t> output;
     output.reserve(numPoints);
 
-    for (vector<doublev_t>::size_type i=0; i<numPoints; ++i) {
+    for (vector<doublev_t>::size_type i=0; i< static_cast<vector<doublev_t>::
+            size_type>(numPoints); ++i) {
         output.push_back(dot(rotMat, arr[i]));
     }
 
