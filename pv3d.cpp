@@ -16,22 +16,22 @@ using namespace std;
 
 int main() {
 
-    //doublev_t axis;
+    //dvec_t axis;
 
-    //vector<doublev_t> test_v;
+    //vector<dvec_t> test_v;
 
     //// TEST 1: z-axis rotation
     //axis = {0,0,1};
-    //test_v.push_back(doublev_t {0,0,0});
-    //test_v.push_back(doublev_t {0,-1,0});
-    //test_v.push_back(doublev_t {-1,0,0});
-    //test_v.push_back(doublev_t {0,1,0});
-    //test_v.push_back(doublev_t {1,0,0});
+    //test_v.push_back(dvec_t {0,0,0});
+    //test_v.push_back(dvec_t {0,-1,0});
+    //test_v.push_back(dvec_t {-1,0,0});
+    //test_v.push_back(dvec_t {0,1,0});
+    //test_v.push_back(dvec_t {1,0,0});
 
     //cout << "Before:" << endl;
     //Tools::printArr(test_v);
 
-    //vector<doublev_t> output;
+    //vector<dvec_t> output;
     //output = Tools::rotate(test_v, M_PI/4, axis);
 
     //cout << "After:" << endl;
@@ -40,11 +40,11 @@ int main() {
     //// TEST 2: y-axis rotation
     //axis = {0,1,0};
     //test_v.clear();
-    //test_v.push_back(doublev_t {0,0,0});
-    //test_v.push_back(doublev_t {-1,0,0});
-    //test_v.push_back(doublev_t {1,0,0});
-    //test_v.push_back(doublev_t {0,0,-1});
-    //test_v.push_back(doublev_t {0,0,1});
+    //test_v.push_back(dvec_t {0,0,0});
+    //test_v.push_back(dvec_t {-1,0,0});
+    //test_v.push_back(dvec_t {1,0,0});
+    //test_v.push_back(dvec_t {0,0,-1});
+    //test_v.push_back(dvec_t {0,0,1});
 
     //cout << "Before:" << endl;
     //Tools::printArr(test_v);
@@ -57,11 +57,11 @@ int main() {
     //// TEST 3: x-axis rotation
     //axis = {1,0,0};
     //test_v.clear();
-    //test_v.push_back(doublev_t {0,0,0});
-    //test_v.push_back(doublev_t {0,1,0});
-    //test_v.push_back(doublev_t {0,-1,0});
-    //test_v.push_back(doublev_t {0,0,-1});
-    //test_v.push_back(doublev_t {0,0,1});
+    //test_v.push_back(dvec_t {0,0,0});
+    //test_v.push_back(dvec_t {0,1,0});
+    //test_v.push_back(dvec_t {0,-1,0});
+    //test_v.push_back(dvec_t {0,0,-1});
+    //test_v.push_back(dvec_t {0,0,1});
 
     //cout << "Before:" << endl;
     //Tools::printArr(test_v);
@@ -74,11 +74,11 @@ int main() {
     //// TEST 3: arbitrary axis rotation
     //axis = {1,1,1};
     //test_v.clear();
-    //test_v.push_back(doublev_t {0,0,0});
-    //test_v.push_back(doublev_t {1,0,0});
-    //test_v.push_back(doublev_t {0,1,0});
-    //test_v.push_back(doublev_t {0,0,1});
-    //test_v.push_back(doublev_t {1,1,1});
+    //test_v.push_back(dvec_t {0,0,0});
+    //test_v.push_back(dvec_t {1,0,0});
+    //test_v.push_back(dvec_t {0,1,0});
+    //test_v.push_back(dvec_t {0,0,1});
+    //test_v.push_back(dvec_t {1,1,1});
 
     //cout << "Before:" << endl;
     //Tools::printArr(test_v);
@@ -89,7 +89,7 @@ int main() {
     //Tools::printArr(output);
 
     //// TEST 4: test multiplyVector
-    doublev_t v = {1,2,3};
+    dvec_t v = {1,2,3};
 
     cout << "Old: ";
     for (int i=0; i<3; i++) {
@@ -105,23 +105,23 @@ int main() {
     }
     cout << endl;
     
-    vector<doublev_t> basis;
+    vector<dvec_t> basis;
     basis.reserve(8);
 
-    basis.push_back(doublev_t {0,0,0});
-    basis.push_back(doublev_t {1,0,0});
-    basis.push_back(doublev_t {0,1,0});
-    basis.push_back(doublev_t {0,0,1});
-    basis.push_back(doublev_t {1,1,0});
-    basis.push_back(doublev_t {0,1,1});
-    basis.push_back(doublev_t {1,0,1});
-    basis.push_back(doublev_t {1,1,1});
+    basis.push_back(dvec_t {0,0,0});
+    basis.push_back(dvec_t {1,0,0});
+    basis.push_back(dvec_t {0,1,0});
+    basis.push_back(dvec_t {0,0,1});
+    basis.push_back(dvec_t {1,1,0});
+    basis.push_back(dvec_t {0,1,1});
+    basis.push_back(dvec_t {1,0,1});
+    basis.push_back(dvec_t {1,1,1});
 
-    doublev_t center = {0,0,0};
-    doublev_t dimensions = {10,10,10};
+    dvec_t center = {0,0,0};
+    dvec_t dimensions = {10,10,10};
     double latConst = 5.0;
 
-    vector<doublev_t> grain;
+    vector<dvec_t> grain;
 
     grain = Grain::genGrain(center, dimensions, basis, latConst);
 

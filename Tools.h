@@ -8,17 +8,17 @@ using namespace std;
 
 namespace Tools {
 
-    void addToVector(doublev_t&, double);
+    void addToVector(dvec_t&, double);
 
-    void multiplyVector(doublev_t&, double);
+    void multiplyVector(dvec_t&, double);
 
-    vector<doublev_t> dot(vector<doublev_t>, vector<doublev_t>);
+    vector<dvec_t> dot(vector<dvec_t>, vector<dvec_t>);
 
-    vector<doublev_t> dot(vector<doublev_t>, doublev_t);
+    vector<dvec_t> dot(vector<dvec_t>, dvec_t);
 
-    void printArr(vector<doublev_t>);
+    void printArr(vector<dvec_t>);
 
-    vector<doublev_t> rotate(vector<doublev_t>, double, doublev_t);
+    vector<dvec_t> rotate(vector<dvec_t>, double, dvec_t);
 
 }
 #endif

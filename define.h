@@ -5,6 +5,6 @@
 
 #define _USE_MATH_DEFINES
 
-typedef std::vector<double> doublev_t;
+typedef std::vector<double> dvec_t;
 
 #endif

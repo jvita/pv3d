@@ -4,7 +4,7 @@
 #include "define.h"
 
 namespace Grain {
-    vector<doublev_t> genGrain(doublev_t, doublev_t, vector<doublev_t>, double);
+    vector<dvec_t> genGrain(dvec_t, dvec_t, vector<dvec_t>, double);
 }
 
 #endif

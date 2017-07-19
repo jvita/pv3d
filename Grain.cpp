@@ -19,8 +19,8 @@
 using namespace std;
 
 namespace Grain {
-    vector<doublev_t> genGrain(doublev_t center, doublev_t dimensions,
-            vector<doublev_t> basis, double latConst) {
+    vector<dvec_t> genGrain(dvec_t center, dvec_t dimensions,
+            vector<dvec_t> basis, double latConst) {
         /* Generates a grain of the given size, using the given basis. Note that
          * 'basis' is intended to correspond to only one atom type, to be
          * combined
@@ -37,11 +37,11 @@ namespace Grain {
          */
 
         int numCells;
-        doublev_t temp;
-        vector<doublev_t> grain = basis;
+        dvec_t temp;
+        vector<dvec_t> grain = basis;
 
         // For all directions
-        for (vector<doublev_t>::size_type i=0; i<dimensions.size(); ++i) {
+        for (vector<dvec_t>::size_type i=0; i<dimensions.size(); ++i) {
             numCells = static_cast<int>(ceil(dimensions[i]/latConst));
             cout << "Basis size: " << basis.size() << endl;
             cout << "Num cells: " << numCells << endl;
@@ -49,7 +49,7 @@ namespace Grain {
             // For each cell
             for (int i=1; i<numCells; i++) {
                 // For each atom in basis
-                for (vector<doublev_t>::size_type j=0; j<basis.size(); ++j) {
+                for (vector<dvec_t>::size_type j=0; j<basis.size(); ++j) {
                     temp = grain[j];
                     Tools::addToVector(temp,latConst*i);
                     grain.push_back(temp);
