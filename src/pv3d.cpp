@@ -109,13 +109,13 @@ int main() {
     basis.reserve(8);
 
     basis.push_back(dvec_t {0,0,0});
-    basis.push_back(dvec_t {1,0,0});
-    basis.push_back(dvec_t {0,1,0});
-    basis.push_back(dvec_t {0,0,1});
-    basis.push_back(dvec_t {1,1,0});
-    basis.push_back(dvec_t {0,1,1});
-    basis.push_back(dvec_t {1,0,1});
-    basis.push_back(dvec_t {1,1,1});
+    //basis.push_back(dvec_t {1,0,0});
+    //basis.push_back(dvec_t {0,1,0});
+    //basis.push_back(dvec_t {0,0,1});
+    //basis.push_back(dvec_t {1,1,0});
+    //basis.push_back(dvec_t {0,1,1});
+    //basis.push_back(dvec_t {1,0,1});
+    //basis.push_back(dvec_t {1,1,1});
 
     dvec_t center = {0,0,0};
     dvec_t dimensions = {10,10,10};
@@ -125,6 +125,6 @@ int main() {
 
     grain = Grain::genGrain(center, dimensions, basis, latConst);
 
-    //Tools::printArr(grain);
+    Tools::printArr(grain);
     cout << grain.size() << endl;
 }

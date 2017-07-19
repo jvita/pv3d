@@ -39,6 +39,7 @@ namespace Tools {
          * Returns: 
          *  result  -   dot product matrix (A*B) of size (nxp) 
          */
+        cout << "POOPSICLES" << endl;
 
         int rows = A.size();
         int cols = B[0].size();

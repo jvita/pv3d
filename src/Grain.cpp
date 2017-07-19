@@ -51,7 +51,8 @@ namespace Grain {
                 // For each atom in basis
                 for (vector<dvec_t>::size_type j=0; j<basis.size(); ++j) {
                     temp = grain[j];
-                    Tools::addToVector(temp,latConst*i);
+                    temp[i] += latConst*i;
+                    //Tools::addToVector(temp,latConst*i);
                     grain.push_back(temp);
                 }
             }
