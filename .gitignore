@@ -162,3 +162,6 @@ Session.vim
 tags
 
 # End of https://www.gitignore.io/api/c++,vim,linux,python
+
+# Executable
+pv3d
