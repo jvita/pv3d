@@ -1,5 +1,4 @@
 OBJS = pv3d.o Grain.o Tools.o
-CPPFILES =  
 CC = g++
 DEBUG = -g
 STD = -std=c++11
