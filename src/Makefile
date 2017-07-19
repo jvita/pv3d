@@ -1,4 +1,4 @@
-OBJS = pv3d.o Grain.o Tools.o
+OBJS = pv3d.o Grain.o Tools.o Lammps.o
 VPATH = /src
 CC = g++
 DEBUG = -g
@@ -9,11 +9,14 @@ LFLAGS = -Wall $(DEBUG) $(STD)
 ../pv3d: $(OBJS)
 	$(CC) $(LFLAGS) $(OBJS) -o ../pv3d
 
-pv3d.o: pv3d.cpp Grain.cpp Tools.cpp Grain.h Tools.h
+pv3d.o: pv3d.cpp Grain.cpp Tools.cpp Grain.h Tools.h define.h
 	$(CC) $(CFLAGS) pv3d.cpp
 
-Grain.o: Grain.cpp Tools.cpp Tools.h
+Grain.o: Grain.cpp Tools.cpp Tools.h define.h
 	$(CC) $(CFLAGS) Grain.cpp
 
 Tools.o: Tools.cpp Tools.h define.h
 	$(CC) $(CFLAGS) Tools.cpp
+
+Lammps.o: Lammps.cpp Lammps.h
+	$(CC) $(CFLAGS) Lammps.cpp

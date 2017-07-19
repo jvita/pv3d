@@ -11,6 +11,7 @@
 #include "define.h"
 #include "Tools.h"
 #include "Grain.h"
+#include "Lammps.h"
 
 using namespace std;
 
@@ -124,8 +125,16 @@ int main() {
 
     vector<dvec_t> grain;
 
-    grain = Grain::genGrain(center, dimensions, basis, latConst);
+    grain = Grain::genGrain(center, dimensions, basis, latConst, 1.0);
 
+    cout << "Before rotation" << endl;
     Tools::printArr(grain);
-    cout << grain.size() << endl;
+
+    //dvec_t axis = {0,0,1};
+    //grain = Tools::rotate(grain, M_PI/2, axis);
+
+    //cout << "After rotation" << endl;
+    //Tools::printArr(grain);
+    
+    //Lammps::writeData("data.test", grain);
 }
