@@ -1,8 +1,5 @@
 Periodic 3-D Voronoi tesselation
 
+--------------------------------------------------------------------------------
 TODO:
     - Add unit testing; see https://github.com/unittest-cpp/unittest-cpp
-./Makefile:# TODO: fix dependencies, update at proper time
-./README:TODO:
-./src/Grain.cpp:// TODO: create special Grain class (position, distance(), atoms)
-./tests/temp.cpp:// TODO: make real tests
