@@ -43,19 +43,17 @@ namespace Grain {
         // For all directions
         for (vector<dvec_t>::size_type i=0; i<dimensions.size(); ++i) {
             numCells = static_cast<int>(ceil(dimensions[i]/latConst));
-            cout << "Basis size: " << basis.size() << endl;
-            cout << "Num cells: " << numCells << endl;
 
             // For each cell
-            for (int i=1; i<numCells; i++) {
+            for (int j=1; j<numCells; ++j) {
                 // For each atom in basis
-                for (vector<dvec_t>::size_type j=0; j<basis.size(); ++j) {
-                    temp = grain[j];
-                    temp[i] += latConst*i;
-                    //Tools::addToVector(temp,latConst*i);
+                for (vector<dvec_t>::size_type k=0; k<basis.size(); ++k) {
+                    temp = basis[k];
+                    temp[i] += latConst*j;
                     grain.push_back(temp);
                 }
             }
+            basis.resize(grain.size());
             basis = grain;
         }
 

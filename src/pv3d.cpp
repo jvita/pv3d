@@ -89,26 +89,27 @@ int main() {
     //Tools::printArr(output);
 
     //// TEST 4: test multiplyVector
-    dvec_t v = {1,2,3};
+    //dvec_t v = {1,2,3};
 
-    cout << "Old: ";
-    for (int i=0; i<3; i++) {
-        cout << v[i] << " ";
-    }
-    cout << endl;
+    //cout << "Old: ";
+    //for (int i=0; i<3; i++) {
+    //    cout << v[i] << " ";
+    //}
+    //cout << endl;
 
-    Tools::multiplyVector(v,2);
+    //Tools::multiplyVector(v,2);
 
-    cout << "New: ";
-    for (int i=0; i<3; i++) {
-        cout << v[i] << " ";
-    }
-    cout << endl;
-    
+    //cout << "New: ";
+    //for (int i=0; i<3; i++) {
+    //    cout << v[i] << " ";
+    //}
+    //cout << endl;
+    //
     vector<dvec_t> basis;
     basis.reserve(8);
 
     basis.push_back(dvec_t {0,0,0});
+    basis.push_back(dvec_t {0.5,0.5,0.5});
     //basis.push_back(dvec_t {1,0,0});
     //basis.push_back(dvec_t {0,1,0});
     //basis.push_back(dvec_t {0,0,1});
