@@ -1,9 +1,9 @@
+# TODO: fix dependencies, update at proper time
 all:
 	cd src/ && $(MAKE)
-	mv src/pv3d .
 	cd tests/ && $(MAKE)
 
 clean:
 	rm pv3d
+	rm test_suite
 	cd src/ && \rm *.o
-	cd tests/ && \rm tests

@@ -1,4 +1,4 @@
-// main.cpp -- take 1
+// TODO: make real tests
 #include "UnitTest++/UnitTest++.h"
 
 int main(int, const char *[])
