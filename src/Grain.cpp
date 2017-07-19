@@ -27,7 +27,7 @@ namespace Grain {
          * Args:
          *  center      -   the center of the grain
          *  dimensions  -   xyz size of the grain (same units as latConst)
-         *  basis       -   the basis set
+         *  basis       -   the basis set in the format [type x y z]
          *  latConst    -   the lattice constant of the unit cell
          *  type        -   atom type
          *
@@ -54,12 +54,20 @@ namespace Grain {
                 // For each atom in basis
                 for (vector<dvec_t>::size_type k=0; k<basis.size(); k++) {
                     temp = basis[k];
-                    temp[i+1] += latConst*j;
+                    temp[i+1] = latConst*j;
                     grain.push_back(temp);
                 }
             }
             basis.resize(grain.size());
             basis = grain;
+        }
+
+        // Shift each atom by 'center'
+        for (vector<dvec_t>::size_type i=0; i<grain.size()-1; i++) {
+            // j = direction
+            for (vector<dvec_t>::size_type j=0; j<grain[i].size()-1; j++) {
+                grain[i][j+1] += center[j];
+            }
         }
 
         return grain;

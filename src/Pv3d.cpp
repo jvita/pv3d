@@ -154,7 +154,7 @@ int main() {
     //basis.push_back(dvec_t {1,0,1});
     //basis.push_back(dvec_t {1,1,1});
 
-    dvec_t center = {0,0,0};
+    dvec_t center = {1,1,1};
     dvec_t dimensions = {10,10,10};
     double latConst = 5.0;
 
@@ -165,8 +165,8 @@ int main() {
     grain2 = Grain::genGrain(center, dimensions, basis2, latConst, 2.0);
     grain1 = Tools::joinArrays(grain1, grain2);
 
-    //cout << "Before rotation" << endl;
-    //Tools::printArr(grain);
+    cout << "Before rotation" << endl;
+    Tools::printArr(grain1);
 
     //dvec_t axis = {0,0,1};
     //grain = Tools::rotate(grain, M_PI/2, axis);
@@ -174,10 +174,10 @@ int main() {
     //cout << "After rotation" << endl;
     //Tools::printArr(grain);
     
-    Lammps::writeData("data.test", grain1);
+    //Lammps::writeData("data.test", grain1);
 
-    int nCenters = 5;
-    vector<dvec_t> centers = Pv3d::genCenters(nCenters, dimensions);
+    //int nCenters = 5;
+    //vector<dvec_t> centers = Pv3d::genCenters(nCenters, dimensions);
 
-    Tools::printArr(centers);
+    //Tools::printArr(centers);
 }
