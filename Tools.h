@@ -6,12 +6,19 @@
 
 using namespace std;
 
-vector<doublev_t> dot(vector<doublev_t>, vector<doublev_t>);
+namespace Tools {
 
-vector<doublev_t> dot(vector<doublev_t>, doublev_t);
+    void addToVector(doublev_t&, double);
 
-void printArr(vector<doublev_t>);
+    void multiplyVector(doublev_t&, double);
 
-vector<doublev_t> rotate(vector<doublev_t>, double, doublev_t);
+    vector<doublev_t> dot(vector<doublev_t>, vector<doublev_t>);
 
+    vector<doublev_t> dot(vector<doublev_t>, doublev_t);
+
+    void printArr(vector<doublev_t>);
+
+    vector<doublev_t> rotate(vector<doublev_t>, double, doublev_t);
+
+}
 #endif
