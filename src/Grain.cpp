@@ -1,6 +1,4 @@
-/* Grain production and manipulation
-:q
-:q
+/* Grain production and manipulation for use with molecular dynamics runs and
  * first principles calculations.
  *
  * Author: Josh Vita
@@ -20,7 +18,7 @@ using namespace std;
 
 namespace Grain {
     vector<dvec_t> genGrain(dvec_t center, dvec_t dimensions,
-            vector<dvec_t> basis, double latConst) {
+            vector<dvec_t> basis, double latConst, double type) {
         /* Generates a grain of the given size, using the given basis. Note that
          * 'basis' is intended to correspond to only one atom type, to be
          * combined
@@ -31,6 +29,7 @@ namespace Grain {
          *  dimensions  -   xyz size of the grain (same units as latConst)
          *  basis       -   the basis set
          *  latConst    -   the lattice constant of the unit cell
+         *  type        -   atom type
          *
          * Returns:
          *  grain   -   the coordinates of all atoms
@@ -38,6 +37,12 @@ namespace Grain {
 
         int numCells;
         dvec_t temp;
+
+        // Initialize basis types
+        for (vector<dvec_t>::size_type i=0; i<basis.size(); ++i) {
+            basis[i].insert(basis[i].begin(), type);
+        }
+
         vector<dvec_t> grain = basis;
 
         // For all directions
@@ -49,7 +54,7 @@ namespace Grain {
                 // For each atom in basis
                 for (vector<dvec_t>::size_type k=0; k<basis.size(); ++k) {
                     temp = basis[k];
-                    temp[i] += latConst*j;
+                    temp[i+1] += latConst*j;
                     grain.push_back(temp);
                 }
             }
