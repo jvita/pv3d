@@ -1,22 +1,33 @@
-OBJS = Pv3d.o Grain.o Tools.o Lammps.o
-VPATH = /src
+OBJS = $(patsubst %.cpp, obj/%.o, $(wildcard *.cpp))
+TEST_OBJS = $(patsubst %.cpp, %.o, $(wildcard unittests/*.cpp)) \
+			$(patsubst %.o, obj/%.o, Tools.o Lammps.o Grain.o)
+
 CC = g++
 DEBUG = -g
 STD = -std=c++11
+
 CFLAGS = -Wall -c $(DEBUG) $(STD)
 LFLAGS = -Wall $(DEBUG) $(STD)
+
+INCLUDE = -I ./
+
+all: pv3d tests
 
 pv3d: $(OBJS)
 	$(CC) $(LFLAGS) $(OBJS) -o pv3d
 
-Pv3d.o: Pv3d.cpp Pv3d.h Grain.cpp Tools.cpp Grain.h Tools.h define.h
-	$(CC) $(CFLAGS) Pv3d.cpp
+tests: $(OBJS) $(TEST_OBJS)
+	$(CC) $(LFLAGS) $(TEST_OBJS) -lUnitTest++ -o tests
 
-Grain.o: Grain.cpp Tools.cpp Tools.h define.h
-	$(CC) $(CFLAGS) Grain.cpp
+unittests/%.o: unittests/%.cpp
+	$(CC) $(CFLAGS) $(INCLUDE) $< -lUnitTest++ -o $@
 
-Tools.o: Tools.cpp Tools.h define.h
-	$(CC) $(CFLAGS) Tools.cpp
+# $@ is target, $< is first dependency
+obj/%.o: %.cpp
+	$(CC) $(CFLAGS) $< -o $@
 
-Lammps.o: Lammps.cpp Lammps.h
-	$(CC) $(CFLAGS) Lammps.cpp
+clean:
+	rm -f obj/*.o
+	rm -f unittests/*.o
+	rm -f pv3d
+	rm -f tests

@@ -197,7 +197,7 @@ int main() {
 
     dvec_t center = {0,0,0};
     dvec_t dimensions = {10,10,10};
-    double latConst = 5.0;
+    //double latConst = 5.0;
 
     // TODO: trim off atom type data for point comparison? inRegion()
 

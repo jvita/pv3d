@@ -10,7 +10,7 @@ namespace Tools {
 
     vector<dvec_t> joinArrays(vector<dvec_t>, vector<dvec_t>);
 
-    void addToVector(dvec_t&, double);
+    void addVectors(dvec_t&, dvec_t&);
 
     void scaleVector(dvec_t&, double);
 

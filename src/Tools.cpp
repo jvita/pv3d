@@ -18,6 +18,13 @@ using namespace std;
 namespace Tools {
 
     vector<dvec_t> joinArrays(vector<dvec_t> a1, vector<dvec_t> a2) {
+        /* Combines two arrays
+         *
+         * Args:
+         *  a1  -   first array
+         *  a2  -   second array
+         */
+
         for (vector<dvec_t>::size_type i=0; i<a2.size(); i++) {
             a1.push_back(a2[i]);
         }
@@ -25,9 +32,16 @@ namespace Tools {
         return a1;
     }
 
-    void addToVector(dvec_t &v, double x) {
-        for (vector<dvec_t>::size_type i=0; i<v.size(); i++) {
-            v[i] = v[i]+x;
+    void addVectors(dvec_t &v1, dvec_t &v2) {
+        /* Adds two vectors together
+         *
+         * Args:
+         *  v1  -   first vector
+         *  v2  -   second vector
+         */
+
+        for (vector<dvec_t>::size_type i=0; i<v1.size(); i++) {
+            v1[i] = v1[i]+v2[i];
         }
     }
 
