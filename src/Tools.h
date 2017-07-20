@@ -12,7 +12,7 @@ namespace Tools {
 
     void addToVector(dvec_t&, double);
 
-    void multiplyVector(dvec_t&, double);
+    void scaleVector(dvec_t&, double);
 
     vector<dvec_t> dot(vector<dvec_t>, vector<dvec_t>);
 

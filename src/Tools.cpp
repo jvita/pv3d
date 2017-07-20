@@ -31,7 +31,14 @@ namespace Tools {
         }
     }
 
-    void multiplyVector(dvec_t &v, double x) {
+    void scaleVector(dvec_t &v, double x) {
+        /* Scales a vector by 'x'
+         *
+         * Args:
+         *  v   -   vector
+         *  x   -   scale factor
+         */
+
         for (vector<dvec_t>::size_type i=0; i<v.size(); i++) {
             v[i] = v[i]*x;
         }
