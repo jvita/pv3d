@@ -6,8 +6,8 @@ STD = -std=c++11
 CFLAGS = -Wall -c $(DEBUG) $(STD)
 LFLAGS = -Wall $(DEBUG) $(STD)
 
-../pv3d: $(OBJS)
-	$(CC) $(LFLAGS) $(OBJS) -o ../pv3d
+pv3d: $(OBJS)
+	$(CC) $(LFLAGS) $(OBJS) -o pv3d
 
 Pv3d.o: Pv3d.cpp Pv3d.h Grain.cpp Tools.cpp Grain.h Tools.h define.h
 	$(CC) $(CFLAGS) Pv3d.cpp

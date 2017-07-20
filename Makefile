@@ -4,6 +4,6 @@ all:
 	cd tests/ && $(MAKE)
 
 clean:
-	rm pv3d
-	rm test_suite
+	rm src/pv3d
+	rm tests/test_suite
 	cd src/ && \rm *.o
