@@ -90,23 +90,6 @@ int main() {
 
     //vector<dvec_t> test_v;
 
-    //// TEST 1: z-axis rotation
-    //axis = {0,0,1};
-    //test_v.push_back(dvec_t {0,0,0});
-    //test_v.push_back(dvec_t {0,-1,0});
-    //test_v.push_back(dvec_t {-1,0,0});
-    //test_v.push_back(dvec_t {0,1,0});
-    //test_v.push_back(dvec_t {1,0,0});
-
-    //cout << "Before:" << endl;
-    //Tools::printArr(test_v);
-
-    //vector<dvec_t> output;
-    //output = Tools::rotate(test_v, M_PI/4, axis);
-
-    //cout << "After:" << endl;
-    //Tools::printArr(output);
-
     //// TEST 2: y-axis rotation
     //axis = {0,1,0};
     //test_v.clear();

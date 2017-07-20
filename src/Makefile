@@ -1,3 +1,4 @@
+# Something weird happened when edited Tools.cpp and did 'make tests'
 OBJS = $(patsubst %.cpp, obj/%.o, $(wildcard *.cpp))
 TEST_OBJS = $(patsubst %.cpp, %.o, $(wildcard unittests/*.cpp)) \
 			$(patsubst %.o, obj/%.o, Tools.o Lammps.o Grain.o)
@@ -22,7 +23,7 @@ tests: $(OBJS) $(TEST_OBJS)
 unittests/%.o: unittests/%.cpp
 	$(CC) $(CFLAGS) $(INCLUDE) $< -lUnitTest++ -o $@
 
-# $@ is target, $< is first dependency
+# $@ is target, $< is first dependency, $^ is all dependencies
 obj/%.o: %.cpp
 	$(CC) $(CFLAGS) $< -o $@
 

@@ -141,7 +141,7 @@ namespace Tools {
         }
     }
 
-    vector<dvec_t> rotate(vector<dvec_t> arr, double theta, dvec_t axis) {
+    void rotate(vector<dvec_t> &arr, double theta, dvec_t axis) {
         /* Rotates a multidimensional array about a given axis by a given theta.
          * Uses the Rodrigues rotation formula.
          *
@@ -192,6 +192,6 @@ namespace Tools {
             output.push_back(dot(rotMat, arr[i]));
         }
 
-        return output;
+        arr = output;
     }
 }
