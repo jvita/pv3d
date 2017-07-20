@@ -165,7 +165,7 @@ tags
 
 # Executables
 pv3d
-test_suite
+tests
 
 # Data files
 data.*
