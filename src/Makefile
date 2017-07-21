@@ -31,7 +31,7 @@ obj:
 	mkdir -p obj
 
 clean:
-	rm -f obj/*.o
+	rm -rf obj/
 	rm -f unittests/*.o
 	rm -f pv3d
 	rm -f tests
