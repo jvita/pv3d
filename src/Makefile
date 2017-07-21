@@ -24,8 +24,11 @@ unittests/%.o: unittests/%.cpp
 	$(CC) $(CFLAGS) $(INCLUDE) $< -lUnitTest++ -o $@
 
 # $@ is target, $< is first dependency, $^ is all dependencies
-obj/%.o: %.cpp
+obj/%.o: %.cpp | obj
 	$(CC) $(CFLAGS) $< -o $@
+
+obj:
+	mkdir -p obj
 
 clean:
 	rm -f obj/*.o
