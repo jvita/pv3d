@@ -100,7 +100,7 @@ namespace Tools {
          *
          * Args:
          *  A   -   left matrix of size (nxm)
-         *  B   -   right matrix of size (mxp)
+         *  B   -   right matrix of size (mx1)
          *
          * Returns: 
          *  result  -   dot product matrix (A*B) of size (nxp) 

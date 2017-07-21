@@ -9,51 +9,6 @@ const double tolerance = 1e-10;
 
 using namespace std;
 
-SUITE(addVectors) {
-    TEST(testEquals) {
-        dvec_t ans;
-        dvec_t v1 = {0,0,0};
-
-        ans = {0,0,0};
-        CHECK_ARRAY_EQUAL(ans,v1,3);
-    }
-
-    TEST(addPositiveInt) {
-        dvec_t ans;
-        dvec_t add;
-        dvec_t v1 = {0,0,0};
-
-        add = {1,1,1};
-        ans = {1,1,1};
-        Tools::addVectors(v1, add);
-        CHECK_ARRAY_EQUAL(ans,v1,3);
-    }
-
-    TEST(addNegativeInt) {
-
-        dvec_t ans;
-        dvec_t add;
-        dvec_t v1 = {0,0,0};
-
-        add = {-2,-2,-2};
-        ans = {-2,-2,-2};
-        Tools::addVectors(v1,add);
-        CHECK_ARRAY_EQUAL(ans,v1,3);
-    }
-
-    TEST(addPositiveFloat) {
-
-        dvec_t ans;
-        dvec_t add;
-        dvec_t v1 = {0,0,0};
-
-        add = {1.5,1.5,1.5};
-        ans = {1.5,1.5,1.5};
-        Tools::addVectors(v1,add);
-        CHECK_ARRAY_EQUAL(ans,v1,3);
-    }
-}
-
 SUITE(joinArrays) {
     TEST(joinEqualSized) {
         vector<dvec_t> v1;
@@ -108,6 +63,51 @@ SUITE(joinArrays) {
     }
 }
 
+SUITE(addVectors) {
+    TEST(testEquals) {
+        dvec_t ans;
+        dvec_t v1 = {0,0,0};
+
+        ans = {0,0,0};
+        CHECK_ARRAY_EQUAL(ans,v1,3);
+    }
+
+    TEST(addPositiveInt) {
+        dvec_t ans;
+        dvec_t add;
+        dvec_t v1 = {0,0,0};
+
+        add = {1,1,1};
+        ans = {1,1,1};
+        Tools::addVectors(v1, add);
+        CHECK_ARRAY_EQUAL(ans,v1,3);
+    }
+
+    TEST(addNegativeInt) {
+
+        dvec_t ans;
+        dvec_t add;
+        dvec_t v1 = {0,0,0};
+
+        add = {-2,-2,-2};
+        ans = {-2,-2,-2};
+        Tools::addVectors(v1,add);
+        CHECK_ARRAY_EQUAL(ans,v1,3);
+    }
+
+    TEST(addPositiveFloat) {
+
+        dvec_t ans;
+        dvec_t add;
+        dvec_t v1 = {0,0,0};
+
+        add = {1.5,1.5,1.5};
+        ans = {1.5,1.5,1.5};
+        Tools::addVectors(v1,add);
+        CHECK_ARRAY_EQUAL(ans,v1,3);
+    }
+}
+
 SUITE(scaleVector) {
     TEST(scalePositive1D) {
         dvec_t vec = {1,2,3};
@@ -128,53 +128,51 @@ SUITE(scaleVector) {
         Tools::scaleVector(vec, scale);
         CHECK_ARRAY_CLOSE(ans,vec,3,tolerance);
     }
-    
-    //TEST(scalePositive2D) {
-    //    double scale = 2.5;
-
-    //    vector<dvec_t> vec;
-
-    //    vec.push_back(dvec_t {1,1,1});
-    //    vec.push_back(dvec_t {2,2,2});
-    //    vec.push_back(dvec_t {3,3,3});
-
-    //    vector<dvec_t> ans;
-
-    //    ans.push_back(dvec_t {2.5,2.5,2.5});
-    //    ans.push_back(dvec_t {5,5,5});
-    //    ans.push_back(dvec_t {7.5,7.5,7.5});
-    //    
-    //    Tools::scaleVector(vec, scale);
-    //    CHECK_ARRAY2D_CLOSE(ans,vec,3,3,tolerance);
-    //}
-
-    //TEST(scaleNegative2D) {
-    //    double scale = -2.5;
-
-    //    vector<dvec_t> vec;
-
-    //    vec.push_back(dvec_t {1,1,1});
-    //    vec.push_back(dvec_t {2,2,2});
-    //    vec.push_back(dvec_t {3,3,3});
-
-    //    vector<dvec_t> ans;
-
-    //    ans.push_back(dvec_t {-2.5,-2.5,-2.5});
-    //    ans.push_back(dvec_t {-5,-5,-5});
-    //    ans.push_back(dvec_t {-7.5,-7.5,-7.5});
-    //    
-    //    Tools::scaleVector(vec, scale);
-    //    CHECK_ARRAY2D_CLOSE(ans,vec,3,3,tolerance);
-    //}
 }
 
 SUITE(dotWithArrays) {
-    TEST(temp) {
+    TEST(basicAdotB) {
+        vector<dvec_t> A;
+        vector<dvec_t> B;
+
+        A.push_back(dvec_t {1,1,1});
+        A.push_back(dvec_t {1,1,1});
+        A.push_back(dvec_t {1,1,1});
+
+        B.push_back(dvec_t {2,0,0});
+        B.push_back(dvec_t {0,3,0});
+        B.push_back(dvec_t {0,0,4});
+
+        vector<dvec_t> dot = Tools::dot(A,B);
+
+        vector<dvec_t> ans;
+
+        ans.push_back(dvec_t {2,3,4});
+        ans.push_back(dvec_t {2,3,4});
+        ans.push_back(dvec_t {2,3,4});
+
+        CHECK_ARRAY2D_CLOSE(ans,dot,3,3,tolerance);
     }
 }
 
 SUITE(dotArrayAndVector) {
-    TEST(temp2) {
+    TEST(basicAdotBvec) {
+        vector<dvec_t> A;
+        dvec_t B;
+
+        A.push_back(dvec_t {1,1,1});
+        A.push_back(dvec_t {1,1,1});
+        A.push_back(dvec_t {1,1,1});
+
+        B = {2,3,4};
+
+        dvec_t dot = Tools::dot(A,B);
+
+        dvec_t ans;
+
+        ans = {9,9,9};
+
+        CHECK_ARRAY_CLOSE(ans,dot,3,tolerance);
     }
 }
 

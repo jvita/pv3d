@@ -16,7 +16,7 @@ namespace Tools {
 
     vector<dvec_t> dot(vector<dvec_t>, vector<dvec_t>);
 
-    vector<dvec_t> dot(vector<dvec_t>, dvec_t);
+    dvec_t dot(vector<dvec_t>, dvec_t);
 
     void printArr(vector<dvec_t>);
 
