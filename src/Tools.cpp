@@ -25,6 +25,12 @@ namespace Tools {
          *  a2  -   second array
          */
 
+        if (a1.size() == 0) {
+            return a2;
+        } else if (a2.size() == 0) {
+            return a1;
+        }
+
         for (vector<dvec_t>::size_type i=0; i<a2.size(); i++) {
             a1.push_back(a2[i]);
         }
@@ -139,6 +145,17 @@ namespace Tools {
             }
             cout << endl;
         }
+    }
+
+    void printArr(dvec_t arr) {
+        /* Prints a 1D array to the console */
+
+        dvec_t::size_type len = arr.size();
+
+        for (dvec_t::size_type i=0; i<len; i++) {
+            cout << arr[i] << " ";
+        }
+        cout << endl;
     }
 
     void rotate(vector<dvec_t> &arr, double theta, dvec_t axis) {

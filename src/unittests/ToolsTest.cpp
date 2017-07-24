@@ -10,6 +10,27 @@ const double tolerance = 1e-10;
 using namespace std;
 
 SUITE(joinArrays) {
+    TEST(joinEmpty) {
+        vector<dvec_t> v1;
+        vector<dvec_t> v2;
+
+        v1.push_back(dvec_t {1,1,1});
+        v1.push_back(dvec_t {2,2,2});
+        v1.push_back(dvec_t {3,3,3});
+
+        vector<dvec_t> ans_v;
+
+        ans_v.push_back(dvec_t {1,1,1});
+        ans_v.push_back(dvec_t {2,2,2});
+        ans_v.push_back(dvec_t {3,3,3});
+
+        vector<dvec_t> joined1 = Tools::joinArrays(v1,v2);
+        vector<dvec_t> joined2 = Tools::joinArrays(v2,v1);
+
+        CHECK_ARRAY2D_CLOSE(ans_v,joined1,3,3,tolerance);
+        CHECK_ARRAY2D_CLOSE(ans_v,joined2,3,3,tolerance);
+    }
+
     TEST(joinEqualSized) {
         vector<dvec_t> v1;
         vector<dvec_t> v2;

@@ -61,6 +61,13 @@ namespace Pv3d {
     }
 
     vector<dvec_t> genCenters(int nCenters, dvec_t boxDims) {
+        /* Randomly generates 'nCenters' number of points within 'boxDims'.
+         *
+         * Args:
+         *  nCenters    -   the number of points to generate
+         *  boxDims     -   xyz bounds of box (assumes origin as lower bound)
+         */
+
         vector<dvec_t> centers;
 
         srand(time(NULL));
@@ -170,6 +177,10 @@ int main() {
     //basis.push_back(dvec_t {1,0,1});
     //basis.push_back(dvec_t {1,1,1});
     
+    dvec_t boxDims = {20,20,20};
+    double latConst = 5.0;
+    vector<dvec_t> centers = Pv3d::genCenters(4, boxDims);
+    
     vector<dvec_t> basis;
     vector<dvec_t> basis2;
     basis.reserve(8);
@@ -185,22 +196,37 @@ int main() {
     basis2.push_back(dvec_t {0,0.5,0});
     basis2.push_back(dvec_t {0.5,0,0});
 
-    dvec_t center = {0,0,0};
-    dvec_t dimensions = {10,10,10};
-    double latConst = 5.0;
+    vector<dvec_t> fullCrystal;
+    dvec_t center;
+
+    for (vector<dvec_t>::size_type i=0; i<centers.size(); i++) {
+        cout << "Starting grain " << i+1 << endl;
+        center = centers[i];
+
+        Tools::printArr(center);
+
+        vector<dvec_t> grain1;
+        vector<dvec_t> grain2;
+
+        cout << "Making first grain..." << endl;
+        grain1 = Grain::genGrain(center, boxDims, basis, latConst, 1.0);
+        cout << "Making second grain..." << endl;
+        grain2 = Grain::genGrain(center, boxDims, basis2, latConst, 2.0);
+        cout << "Joing grains..." << endl;
+        grain1 = Tools::joinArrays(grain1, grain2);
+
+        cout << "Checking existence..." << endl;
+        if (fullCrystal.size()>0) {
+            cout << "It exists..." << endl;
+            fullCrystal = Tools::joinArrays(fullCrystal, grain1);
+        } else {
+            cout << "No it doesnt..." << endl;
+            fullCrystal = grain1;
+        }
+    }
 
     // TODO: trim off atom type data for point comparison? inRegion()
     
-    vector<dvec_t> grain1;
-    vector<dvec_t> grain2;
-
-    grain1 = Grain::genGrain(center, dimensions, basis, latConst, 1.0);
-    Tools::printArr(grain1);
-    grain2 = Grain::genGrain(center, dimensions, basis2, latConst, 2.0);
-    Tools::printArr(grain2);
-    grain1 = Tools::joinArrays(grain1, grain2);
-    Tools::printArr(grain1);
-
     //cout << "Before rotation" << endl;
     //Tools::printArr(grain1);
 
@@ -210,7 +236,7 @@ int main() {
     //cout << "After rotation" << endl;
     //Tools::printArr(grain);
     
-    Lammps::writeData("data.test", grain1);
+    Lammps::writeData("data.test", fullCrystal);
 
     //int nCenters = 5;
     //vector<dvec_t> centers = Pv3d::genCenters(nCenters, dimensions);

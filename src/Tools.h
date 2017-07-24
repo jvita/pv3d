@@ -20,6 +20,8 @@ namespace Tools {
 
     void printArr(vector<dvec_t>);
 
+    void printArr(dvec_t);
+
     void rotate(vector<dvec_t>&, double, dvec_t);
 }
 #endif
