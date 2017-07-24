@@ -28,6 +28,7 @@ namespace Grain {
          *  center      -   the center of the grain
          *  dimensions  -   xyz size of the grain (same units as latConst)
          *  basis       -   the basis set in the format [type x y z]
+         *                  (fractional coordinates).
          *  latConst    -   the lattice constant of the unit cell
          *  type        -   atom type
          *
@@ -38,8 +39,9 @@ namespace Grain {
         int numCells;
         dvec_t temp;
 
-        // Initialize basis types
+        // Initialize basis types and scale basis
         for (vector<dvec_t>::size_type i=0; i<basis.size(); i++) {
+            Tools::scaleVector(basis[i], latConst);
             basis[i].insert(basis[i].begin(), type);
         }
 
@@ -54,7 +56,8 @@ namespace Grain {
                 // For each atom in basis
                 for (vector<dvec_t>::size_type k=0; k<basis.size(); k++) {
                     temp = basis[k];
-                    temp[i+1] = latConst*j;
+                    //temp[i+1] = latConst*j;
+                    temp[i+1] += j*latConst;
                     grain.push_back(temp);
                 }
             }

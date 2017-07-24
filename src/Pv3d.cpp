@@ -176,17 +176,30 @@ int main() {
     basis2.reserve(8);
     
     basis.push_back(dvec_t {0,0,0});
+    basis.push_back(dvec_t {0.5,0.5,0});
+    basis.push_back(dvec_t {0,0.5,0.5});
+    basis.push_back(dvec_t {0.5,0,0.5});
+
     basis2.push_back(dvec_t {0.5,0.5,0.5});
+    basis2.push_back(dvec_t {0,0,0.5});
+    basis2.push_back(dvec_t {0,0.5,0});
+    basis2.push_back(dvec_t {0.5,0,0});
 
     dvec_t center = {0,0,0};
     dvec_t dimensions = {10,10,10};
-    //double latConst = 5.0;
+    double latConst = 5.0;
 
     // TODO: trim off atom type data for point comparison? inRegion()
+    
+    vector<dvec_t> grain1;
+    vector<dvec_t> grain2;
 
-    //grain1 = Grain::genGrain(center, dimensions, basis, latConst, 1.0);
-    //grain2 = Grain::genGrain(center, dimensions, basis2, latConst, 2.0);
-    //grain1 = Tools::joinArrays(grain1, grain2);
+    grain1 = Grain::genGrain(center, dimensions, basis, latConst, 1.0);
+    Tools::printArr(grain1);
+    grain2 = Grain::genGrain(center, dimensions, basis2, latConst, 2.0);
+    Tools::printArr(grain2);
+    grain1 = Tools::joinArrays(grain1, grain2);
+    Tools::printArr(grain1);
 
     //cout << "Before rotation" << endl;
     //Tools::printArr(grain1);
@@ -197,7 +210,7 @@ int main() {
     //cout << "After rotation" << endl;
     //Tools::printArr(grain);
     
-    //Lammps::writeData("data.test", grain1);
+    Lammps::writeData("data.test", grain1);
 
     //int nCenters = 5;
     //vector<dvec_t> centers = Pv3d::genCenters(nCenters, dimensions);
