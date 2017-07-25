@@ -89,94 +89,44 @@ namespace Pv3d {
 
         return centers;
     }
+
+    vector<dvec_t> genImages(vector<dvec_t> originals) {
+        /* Produce the 26 additional images (in 3D) of a set of
+         * points
+         *
+         * Args:
+         *  originals   -   the data points to be duplicated; assumes fractional
+         *                  coordinates
+         *
+         * Returns:
+         *  images      -   the full copy of all 26 duplicated images and the
+         *                  original 1 set of points
+         */
+
+        vector<dvec_t> images;
+        dvec_t toAdd;
+
+        
+        for (vector<dvec_t>::size_type a=0; a<originals.size(); a++) {
+            toAdd = originals[0];
+
+            for (double i=-1; i<2; i++) {
+                for (double j=-1; j<2; j++) {
+                    for (double k=-1; k<2; k++) {
+                        dvec_t shift = {i,j,k};
+                        Tools::addVectors(toAdd, shift);
+
+                        images.push_back(toAdd);
+                    }
+                }
+            }
+        }
+        return images;
+    }
 }
 
 int main() {
-
-    //dvec_t axis;
-
-    //vector<dvec_t> test_v;
-
-    //// TEST 2: y-axis rotation
-    //axis = {0,1,0};
-    //test_v.clear();
-    //test_v.push_back(dvec_t {0,0,0});
-    //test_v.push_back(dvec_t {-1,0,0});
-    //test_v.push_back(dvec_t {1,0,0});
-    //test_v.push_back(dvec_t {0,0,-1});
-    //test_v.push_back(dvec_t {0,0,1});
-
-    //cout << "Before:" << endl;
-    //Tools::printArr(test_v);
-
-    //output = Tools::rotate(test_v, M_PI/4, axis);
-
-    //cout << "After:" << endl;
-    //Tools::printArr(output);
-
-    //// TEST 3: x-axis rotation
-    //axis = {1,0,0};
-    //test_v.clear();
-    //test_v.push_back(dvec_t {0,0,0});
-    //test_v.push_back(dvec_t {0,1,0});
-    //test_v.push_back(dvec_t {0,-1,0});
-    //test_v.push_back(dvec_t {0,0,-1});
-    //test_v.push_back(dvec_t {0,0,1});
-
-    //cout << "Before:" << endl;
-    //Tools::printArr(test_v);
-
-    //output = Tools::rotate(test_v, M_PI/4, axis);
-
-    //cout << "After:" << endl;
-    //Tools::printArr(output);
-
-    //// TEST 3: arbitrary axis rotation
-    //axis = {1,1,1};
-    //test_v.clear();
-    //test_v.push_back(dvec_t {0,0,0});
-    //test_v.push_back(dvec_t {1,0,0});
-    //test_v.push_back(dvec_t {0,1,0});
-    //test_v.push_back(dvec_t {0,0,1});
-    //test_v.push_back(dvec_t {1,1,1});
-
-    //cout << "Before:" << endl;
-    //Tools::printArr(test_v);
-
-    //output = Tools::rotate(test_v, M_PI/4, axis);
-
-    //cout << "After:" << endl;
-    //Tools::printArr(output);
-
-    //// TEST 4: test scaleVector
-    //dvec_t v = {1,2,3};
-
-    //cout << "Old: ";
-    //for (int i=0; i<3; i++) {
-    //    cout << v[i] << " ";
-    //}
-    //cout << endl;
-
-    //Tools::scaleVector(v,2);
-
-    //cout << "New: ";
-    //for (int i=0; i<3; i++) {
-    //    cout << v[i] << " ";
-    //}
-    //cout << endl;
-    //
-    //basis.push_back(dvec_t {0.5,0.5,0.5});
-
-    //basis2.push_back(dvec_t {0,0,0});
- 
-    //basis.push_back(dvec_t {1,0,0});
-    //basis.push_back(dvec_t {0,1,0});
-    //basis.push_back(dvec_t {0,0,1});
-    //basis.push_back(dvec_t {1,1,0});
-    //basis.push_back(dvec_t {0,1,1});
-    //basis.push_back(dvec_t {1,0,1});
-    //basis.push_back(dvec_t {1,1,1});
-    
+   
     dvec_t boxDims = {20,20,20};
     double latConst = 5.0;
     vector<dvec_t> centers = Pv3d::genCenters(4, boxDims);
@@ -185,7 +135,7 @@ int main() {
     vector<dvec_t> basis2;
     basis.reserve(8);
     basis2.reserve(8);
-    
+
     basis.push_back(dvec_t {0,0,0});
     basis.push_back(dvec_t {0.5,0.5,0});
     basis.push_back(dvec_t {0,0.5,0.5});
@@ -199,8 +149,8 @@ int main() {
     vector<dvec_t> fullCrystal;
     dvec_t center;
 
+    // Creates all grains
     for (vector<dvec_t>::size_type i=0; i<centers.size(); i++) {
-        cout << "Starting grain " << i+1 << endl;
         center = centers[i];
 
         Tools::printArr(center);
@@ -208,38 +158,25 @@ int main() {
         vector<dvec_t> grain1;
         vector<dvec_t> grain2;
 
-        cout << "Making first grain..." << endl;
         grain1 = Grain::genGrain(center, boxDims, basis, latConst, 1.0);
-        cout << "Making second grain..." << endl;
         grain2 = Grain::genGrain(center, boxDims, basis2, latConst, 2.0);
-        cout << "Joing grains..." << endl;
         grain1 = Tools::joinArrays(grain1, grain2);
 
-        cout << "Checking existence..." << endl;
+        double theta = rand()*2*M_PI / RAND_MAX;
+        double x = static_cast<double>(rand()) / RAND_MAX;
+        double y = static_cast<double>(rand()) / RAND_MAX;
+        double z = static_cast<double>(rand()) / RAND_MAX;
+        dvec_t axis = {x,y,z};
+
+        // TODO: rotate doesn't expect atom types
+        //Tools::rotate(grain1, theta, axis);
+
         if (fullCrystal.size()>0) {
-            cout << "It exists..." << endl;
             fullCrystal = Tools::joinArrays(fullCrystal, grain1);
         } else {
-            cout << "No it doesnt..." << endl;
             fullCrystal = grain1;
         }
     }
-
-    // TODO: trim off atom type data for point comparison? inRegion()
-    
-    //cout << "Before rotation" << endl;
-    //Tools::printArr(grain1);
-
-    //dvec_t axis = {0,0,1};
-    //grain = Tools::rotate(grain, M_PI/2, axis);
-
-    //cout << "After rotation" << endl;
-    //Tools::printArr(grain);
-    
+   
     Lammps::writeData("data.test", fullCrystal);
-
-    //int nCenters = 5;
-    //vector<dvec_t> centers = Pv3d::genCenters(nCenters, dimensions);
-
-    //Tools::printArr(centers);
 }
