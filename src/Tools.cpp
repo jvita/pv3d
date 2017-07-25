@@ -163,7 +163,7 @@ namespace Tools {
          * Uses the Rodrigues rotation formula.
          *
          * Args:
-         *  arr     - the array to be rotated
+         *  arr     - the array to be rotated (WITH atom types)
          *  theta   - angle in radians
          *  axis    - axis of rotation
          */
@@ -206,7 +206,14 @@ namespace Tools {
 
         for (vector<dvec_t>::size_type i=0; i< static_cast<vector<dvec_t>::
                 size_type>(numPoints); i++) {
-            output.push_back(dot(rotMat, arr[i]));
+            dvec_t::const_iterator first = arr[i].begin()+1;
+            dvec_t::const_iterator last = arr[i].end();
+            dvec_t temp_v (first,last);
+
+            temp_v = dot(rotMat, temp_v);
+            temp_v.insert(temp_v.begin(), arr[i][0]);
+
+            output.push_back(temp_v);
         }
 
         arr = output;

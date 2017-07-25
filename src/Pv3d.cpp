@@ -164,17 +164,18 @@ int main() {
         double z = static_cast<double>(rand()) / RAND_MAX;
         dvec_t axis = {x,y,z};
 
-        vector<dvec_t> rotBasis1 = basis;
-        vector<dvec_t> rotBasis2 = basis2;
-
-        Tools::rotate(rotBasis1,theta,axis);
-        Tools::rotate(rotBasis2,theta,axis);
-
-        grain1 = Grain::genGrain(center, boxDims, rotBasis1, latConst, 1.0);
-        grain2 = Grain::genGrain(center, boxDims, rotBasis2, latConst, 2.0);
+        grain1 = Grain::genGrain(center, boxDims, basis, latConst, 1.0);
+        grain2 = Grain::genGrain(center, boxDims, basis2, latConst, 2.0);
         grain1 = Tools::joinArrays(grain1, grain2);
 
-        // TODO: rotate doesn't expect atom types
+        cout << "Before:--------------------------------------------------------------------------------" << endl;
+        Tools::printArr(grain1);
+        Tools::rotate(grain1,theta,axis);
+        cout << "After:--------------------------------------------------------------------------------" << endl;
+        Tools::printArr(grain1);
+
+        // TODO: see if you can edit the flow so that Tools::rotate() doesn't
+        // require atom info
         //Tools::rotate(grain1, theta, axis);
 
         if (fullCrystal.size()>0) {
