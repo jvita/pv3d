@@ -158,15 +158,21 @@ int main() {
         vector<dvec_t> grain1;
         vector<dvec_t> grain2;
 
-        grain1 = Grain::genGrain(center, boxDims, basis, latConst, 1.0);
-        grain2 = Grain::genGrain(center, boxDims, basis2, latConst, 2.0);
-        grain1 = Tools::joinArrays(grain1, grain2);
-
         double theta = rand()*2*M_PI / RAND_MAX;
         double x = static_cast<double>(rand()) / RAND_MAX;
         double y = static_cast<double>(rand()) / RAND_MAX;
         double z = static_cast<double>(rand()) / RAND_MAX;
         dvec_t axis = {x,y,z};
+
+        vector<dvec_t> rotBasis1 = basis;
+        vector<dvec_t> rotBasis2 = basis2;
+
+        Tools::rotate(rotBasis1,theta,axis);
+        Tools::rotate(rotBasis2,theta,axis);
+
+        grain1 = Grain::genGrain(center, boxDims, rotBasis1, latConst, 1.0);
+        grain2 = Grain::genGrain(center, boxDims, rotBasis2, latConst, 2.0);
+        grain1 = Tools::joinArrays(grain1, grain2);
 
         // TODO: rotate doesn't expect atom types
         //Tools::rotate(grain1, theta, axis);
