@@ -24,7 +24,8 @@ namespace Pv3d {
          * regionId.
          *
          * Args:
-         *  p           -   xyz coordinates of checked point
+         *  p           -   xyz coordinates of checked point (with atom type
+         *                  info)
          *  centers     -   collection of all tile centers
          *  regionId    -   tile id to be checked
          *
@@ -32,32 +33,36 @@ namespace Pv3d {
          *  'true' if point is in tile
          */
 
-        dvec_t testCenter = centers[regionId];
-        dvec_t diffToTest;
+        // Instantiate to first distance
+        dvec_t t1 = centers[0];
+        dvec_t diff = {t1[0]-p[1], t1[1]-p[2], t1[2]-p[3]};     // p has atom
+                                                                // type info
+        double smallestDist = sqrt(diff[0]*diff[0] + diff[1]*diff[1] +
+                                        diff[2]*diff[2]);
+        int closestCenter = 0;
 
-        for (dvec_t::size_type i=0; i<testCenter.size(); i++) {
-            diffToTest.push_back(abs(testCenter[i]-p[i]));
-        }
+        // Compare against every other distance
+        for (vector<dvec_t>::size_type i=1; i<centers.size(); i++) {
+            t1 = centers[i];
+            dvec_t diff = {t1[0]-p[1], t1[1]-p[2], t1[2]-p[3]};
 
-        double testDist = sqrt(diffToTest[0]*diffToTest[0] + diffToTest[1]*
-                               diffToTest[1] + diffToTest[2]*diffToTest[2]);
+            double checkDist = sqrt(diff[0]*diff[0] + diff[1]*diff[1] +
+                                        diff[2]*diff[2]);
 
-        for (vector<dvec_t>::size_type i=0; i<centers.size(); i++) {
-            dvec_t temp = centers[i];
-            dvec_t diff;
+            // Update distance and ID if closer
+            if (checkDist < smallestDist) {
+                smallestDist = checkDist;
 
-            for (dvec_t::size_type j=0; j<temp.size(); j++) {
-                diff.push_back(abs(temp[j]-p[j]));
+                // Each block of 27 corresponds to one 'family' of regions
+                closestCenter = static_cast<int>(floor(i/27));
             }
-
-            double dist = sqrt(diff[0]*diff[0] + diff[1]*diff[1]
-                               + diff[2]*diff[2] );
-
-            if (dist < testDist)
-                return false;
         }
 
-        return true;
+        // Return results
+        if (closestCenter == regionId)
+            return true;
+        else
+            return false;
     }
 
     vector<dvec_t> genCenters(int nCenters, dvec_t boxDims) {
@@ -66,6 +71,9 @@ namespace Pv3d {
          * Args:
          *  nCenters    -   the number of points to generate
          *  boxDims     -   xyz bounds of box (assumes origin as lower bound)
+         *
+         * Returns:
+         *  centers     -   a set of xyz coordinates (no atom info)
          */
 
         vector<dvec_t> centers;
@@ -107,7 +115,7 @@ namespace Pv3d {
         dvec_t toAdd;
 
         for (vector<dvec_t>::size_type a=0; a<originals.size(); a++) {
-            toAdd = originals[0];
+            toAdd = originals[a];
 
             for (double i=-1; i<2; i++) {
                 for (double j=-1; j<2; j++) {
@@ -131,7 +139,9 @@ int main() {
     double latConst = 5.0;
     int numGrains = 2;
     //vector<dvec_t> centers = Pv3d::genCenters(numGrains, boxDims);
-    vector<dvec_t> centers = {dvec_t {1,1,1}};
+    vector<dvec_t> centers;
+    centers.push_back(dvec_t {1,0,0});
+    centers.push_back(dvec_t {10,0,0});
     
     vector<dvec_t> basis;
     vector<dvec_t> basis2;
@@ -153,14 +163,23 @@ int main() {
 
     vector<dvec_t> images = Pv3d::genImages(centers);
 
-    cout << "Num centers: " << images.size() << endl;
-    cout << "Images: " << endl;
-    Tools::printArr(images);
-    cout << "Done" << endl;
+    //cout << "Num centers: " << images.size() << endl;
+    //cout << "Images: " << endl;
+    //Tools::printArr(images);
+    //cout << "Done" << endl;
+
+    int centerId;
 
     // Creates all grains
     for (vector<dvec_t>::size_type i=0; i<images.size(); i++) {
+
+        // TODO: rotate each family of images by same amount
+        // TODO: trim any atoms that aren't in family of regions
+        // TODO: trim any atoms outside of original box dimensions
+
         center = images[i];
+        centerId = static_cast<int>(floor(i/27)); // images are in blocks of 27
+        cout << "centerId: " << centerId << endl;
 
         vector<dvec_t> grain1;
         vector<dvec_t> grain2;
@@ -187,10 +206,16 @@ int main() {
 
         Grain::shiftGrain(grain1, center);
 
-        if (fullCrystal.size()>0) {
-            fullCrystal = Tools::joinArrays(fullCrystal, grain1);
-        } else {
-            fullCrystal = grain1;
+        //if (fullCrystal.size()>0) {
+        //    fullCrystal = Tools::joinArrays(fullCrystal, grain1);
+        //} else {
+        //    fullCrystal = grain1;
+        //}
+
+        for (vector<dvec_t>::size_type a=0; a<grain1.size(); a++) {
+            if (Pv3d::inRegion(grain1[a], centers, centerId)) {
+                fullCrystal.push_back(grain1[a]);
+            }
         }
     }
    
