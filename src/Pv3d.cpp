@@ -162,62 +162,21 @@ int main() {
         double z = static_cast<double>(rand()) / RAND_MAX;
         dvec_t axis = {x,y,z};
 
-        //center = {0,0,0};
-        //x = 1; y = 1; z = 1;
-        //axis = {x,y,z};
-
-        //theta = M_PI/4.0;
+        cout << "Center: ";
+        Tools::printArr(center);
 
         cout << "Axis: ";
         Tools::printArr(axis);
 
         cout << "Theta: " << theta << endl;
 
-        vector<dvec_t> tempBasis1 = basis;
-        vector<dvec_t> tempBasis2 = basis2;
-
-        Tools::rotate(tempBasis1, theta, axis);
-        Tools::rotate(tempBasis1, theta, axis);
-
         grain1 = Grain::genGrain(boxDims, basis, latConst, 1.0);
-        cout << "g1 size: " << grain1.size() << endl;
         grain2 = Grain::genGrain(boxDims, basis2, latConst, 2.0);
-        cout << "g2 size: " << grain2.size() << endl;
         grain1 = Tools::joinArrays(grain1, grain2);
-        cout << "Together: " << grain1.size() << endl;
-
-        //dvec_t center = Grain::getGrainCenter(grain1);
 
         Tools::rotate(grain1,theta,axis);
 
-        //dvec_t trueCenter = Grain::getGrainCenter(grain1);
-        //Tools::addVectors(axis,trueCenter);
-
-        // TODO: see if you can edit the flow so that Tools::rotate() doesn't
-        // require atom info
-        //Tools::rotate(grain1, theta, axis);
-        //Grain::shiftGrain(grain1, center);
-
-        dvec_t shift = Grain::getGrainCenter(grain1);
-
-        Tools::scaleVector(shift, -1);
-        dvec_t temp = center;
-        Tools::addVectors(shift, temp); // Subtraction
-
-        cout << "trueCenter: ";
-        Tools::printArr(shift);
-        cout << "Center: ";
-        Tools::printArr(center);
-
-        //dvec_t origin = {0,0,0};
-        //origin.insert(origin.begin(), 3.0);
-        //grain1.push_back(origin);
-
         Grain::shiftGrain(grain1, center);
-
-        center.insert(center.begin(), 3.0);
-        grain1.push_back(center);
-
 
         if (fullCrystal.size()>0) {
             fullCrystal = Tools::joinArrays(fullCrystal, grain1);
