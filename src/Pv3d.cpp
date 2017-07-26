@@ -106,7 +106,6 @@ namespace Pv3d {
         vector<dvec_t> images;
         dvec_t toAdd;
 
-        
         for (vector<dvec_t>::size_type a=0; a<originals.size(); a++) {
             toAdd = originals[0];
 
@@ -114,9 +113,10 @@ namespace Pv3d {
                 for (double j=-1; j<2; j++) {
                     for (double k=-1; k<2; k++) {
                         dvec_t shift = {i,j,k};
-                        Tools::addVectors(toAdd, shift);
+                        dvec_t temp = toAdd;
+                        Tools::addVectors(temp, shift);
 
-                        images.push_back(toAdd);
+                        images.push_back(temp);
                     }
                 }
             }
@@ -129,7 +129,9 @@ int main() {
    
     dvec_t boxDims = {20,20,20};
     double latConst = 5.0;
-    vector<dvec_t> centers = Pv3d::genCenters(2, boxDims);
+    int numGrains = 2;
+    //vector<dvec_t> centers = Pv3d::genCenters(numGrains, boxDims);
+    vector<dvec_t> centers = {dvec_t {1,1,1}};
     
     vector<dvec_t> basis;
     vector<dvec_t> basis2;
@@ -149,9 +151,16 @@ int main() {
     vector<dvec_t> fullCrystal;
     dvec_t center;
 
+    vector<dvec_t> images = Pv3d::genImages(centers);
+
+    cout << "Num centers: " << images.size() << endl;
+    cout << "Images: " << endl;
+    Tools::printArr(images);
+    cout << "Done" << endl;
+
     // Creates all grains
-    for (vector<dvec_t>::size_type i=0; i<centers.size(); i++) {
-        center = centers[i];
+    for (vector<dvec_t>::size_type i=0; i<images.size(); i++) {
+        center = images[i];
 
         vector<dvec_t> grain1;
         vector<dvec_t> grain2;
@@ -162,13 +171,13 @@ int main() {
         double z = static_cast<double>(rand()) / RAND_MAX;
         dvec_t axis = {x,y,z};
 
-        cout << "Center: ";
-        Tools::printArr(center);
+        //cout << "Center: ";
+        //Tools::printArr(center);
 
-        cout << "Axis: ";
-        Tools::printArr(axis);
+        //cout << "Axis: ";
+        //Tools::printArr(axis);
 
-        cout << "Theta: " << theta << endl;
+        //cout << "Theta: " << theta << endl;
 
         grain1 = Grain::genGrain(boxDims, basis, latConst, 1.0);
         grain2 = Grain::genGrain(boxDims, basis2, latConst, 2.0);
