@@ -17,6 +17,8 @@ using namespace std;
 
 namespace Tools {
 
+    // TODO: create an array slicer to get rid of atom types
+
     vector<dvec_t> joinArrays(vector<dvec_t> a1, vector<dvec_t> a2) {
         /* Combines two arrays
          *
@@ -165,8 +167,13 @@ namespace Tools {
          * Args:
          *  arr     - the array to be rotated (WITH atom types)
          *  theta   - angle in radians
-         *  axis    - axis of rotation
+         *  axis    - axis of rotation (will be normalized)
          */
+
+        double normVal = sqrt(axis[0]*axis[0] + axis[1]*axis[1] +
+                                axis[2]*axis[2]);
+
+        scaleVector(axis, 1/normVal);
 
         int numPoints = arr.size();
 
