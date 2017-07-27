@@ -172,23 +172,8 @@ int main() {
 
     int centerId;
 
-    // Creates all grains
-    for (vector<dvec_t>::size_type i=0; i<images.size(); i++) {
-
-        // TODO: rotate each family of images by same amount
-        // TODO (DONE): trim any atoms that aren't in family of regions
-        // TODO: trim any atoms outside of original box dimensions
-
-        center = images[i];
-        Tools::scaleVector(center, sideLength);
-
-        centerId = static_cast<int>(floor(i/27)); // images are in blocks of 27
-        cout << "centerId: " << centerId << endl;
-        cout << "center: ";
-        Tools::printArr(center);
-
-        vector<dvec_t> grain1;
-        vector<dvec_t> grain2;
+    // Iterate over each family of regions
+    for (int j=0; j<nGrains; j++) {
 
         double theta = rand()*2*M_PI / RAND_MAX;
         double x = static_cast<double>(rand()) / RAND_MAX;
@@ -196,26 +181,47 @@ int main() {
         double z = static_cast<double>(rand()) / RAND_MAX;
         dvec_t axis = {x,y,z};
 
-        //cout << "Center: ";
-        //Tools::printArr(center);
+        // Iterate over all 27 images
+        for (vector<dvec_t>::size_type i=j*27; i<(j+1)*27; i++) {
 
-        //cout << "Axis: ";
-        //Tools::printArr(axis);
+            // TODO: rotate each family of images by same amount
+            // TODO: trim any atoms that aren't in family of regions
+            // TODO: trim any atoms outside of original box dimensions
 
-        //cout << "Theta: " << theta << endl;
+            center = images[i];
+            centerId = static_cast<int>(floor(i/27)); // images are in blocks of 27
+            cout << "centerId: " << centerId << endl;
 
-        grain1 = Grain::genGrain(boxDims, basis, latConst, 1.0);
-        grain2 = Grain::genGrain(boxDims, basis2, latConst, 2.0);
-        grain1 = Tools::joinArrays(grain1, grain2);
+            vector<dvec_t> grain1;
+            vector<dvec_t> grain2;
 
-        Tools::rotate(grain1,theta,axis);
+            //cout << "Center: ";
+            //Tools::printArr(center);
 
-        Grain::shiftGrain(grain1, center);
+            //cout << "Axis: ";
+            //Tools::printArr(axis);
 
-        if (fullCrystal.size()>0) {
-            fullCrystal = Tools::joinArrays(fullCrystal, grain1);
-        } else {
-            fullCrystal = grain1;
+            //cout << "Theta: " << theta << endl;
+
+            grain1 = Grain::genGrain(boxDims, basis, latConst, 1.0);
+            grain2 = Grain::genGrain(boxDims, basis2, latConst, 2.0);
+            grain1 = Tools::joinArrays(grain1, grain2);
+
+            Tools::rotate(grain1,theta,axis);
+
+            Grain::shiftGrain(grain1, center);
+
+            //if (fullCrystal.size()>0) {
+            //    fullCrystal = Tools::joinArrays(fullCrystal, grain1);
+            //} else {
+            //    fullCrystal = grain1;
+            //}
+
+            for (vector<dvec_t>::size_type a=0; a<grain1.size(); a++) {
+                if (Pv3d::inRegion(grain1[a], centers, centerId)) {
+                    fullCrystal.push_back(grain1[a]);
+                }
+            }
         }
 
         center.insert(center.begin(), 3.0);
@@ -227,6 +233,5 @@ int main() {
         //    }
         //}
     }
-   
     Lammps::writeData("data.test", fullCrystal);
 }
