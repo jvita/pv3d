@@ -135,13 +135,15 @@ namespace Pv3d {
 
 int main() {
    
-    dvec_t boxDims = {20,20,20};
+    // TODO: genImages needs to shift by boxDims; make adaptable to rectangles
+    double sideLength = 20;
+    dvec_t boxDims = {sideLength,sideLength,sideLength};
     double latConst = 5.0;
     int numGrains = 2;
     //vector<dvec_t> centers = Pv3d::genCenters(numGrains, boxDims);
     vector<dvec_t> centers;
     centers.push_back(dvec_t {1,0,0});
-    centers.push_back(dvec_t {10,0,0});
+    //centers.push_back(dvec_t {10,0,0});
     
     vector<dvec_t> basis;
     vector<dvec_t> basis2;
@@ -174,12 +176,16 @@ int main() {
     for (vector<dvec_t>::size_type i=0; i<images.size(); i++) {
 
         // TODO: rotate each family of images by same amount
-        // TODO: trim any atoms that aren't in family of regions
+        // TODO (DONE): trim any atoms that aren't in family of regions
         // TODO: trim any atoms outside of original box dimensions
 
         center = images[i];
+        Tools::scaleVector(center, sideLength);
+
         centerId = static_cast<int>(floor(i/27)); // images are in blocks of 27
         cout << "centerId: " << centerId << endl;
+        cout << "center: ";
+        Tools::printArr(center);
 
         vector<dvec_t> grain1;
         vector<dvec_t> grain2;
@@ -206,17 +212,20 @@ int main() {
 
         Grain::shiftGrain(grain1, center);
 
-        //if (fullCrystal.size()>0) {
-        //    fullCrystal = Tools::joinArrays(fullCrystal, grain1);
-        //} else {
-        //    fullCrystal = grain1;
-        //}
-
-        for (vector<dvec_t>::size_type a=0; a<grain1.size(); a++) {
-            if (Pv3d::inRegion(grain1[a], centers, centerId)) {
-                fullCrystal.push_back(grain1[a]);
-            }
+        if (fullCrystal.size()>0) {
+            fullCrystal = Tools::joinArrays(fullCrystal, grain1);
+        } else {
+            fullCrystal = grain1;
         }
+
+        center.insert(center.begin(), 3.0);
+        fullCrystal.push_back(center);
+
+        //for (vector<dvec_t>::size_type a=0; a<grain1.size(); a++) {
+        //    if (Pv3d::inRegion(grain1[a], centers, centerId)) {
+        //        fullCrystal.push_back(grain1[a]);
+        //    }
+        //}
     }
    
     Lammps::writeData("data.test", fullCrystal);
