@@ -10,7 +10,7 @@ namespace Pv3d {
 
     vector<dvec_t> genCenters(int, dvec_t);
 
-    vector<dvec_t> genImages(vector<dvec_t>);
+    vector<dvec_t> genImages(vector<dvec_t>, dvec_t);
 }
 
 #endif

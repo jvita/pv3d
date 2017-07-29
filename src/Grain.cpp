@@ -97,7 +97,6 @@ namespace Grain {
          *  grain   -   an origin-centered grain
          */
 
-        int numCells;
         dvec_t temp;
 
         // Initialize basis types and scale basis
@@ -106,11 +105,16 @@ namespace Grain {
             basis[i].insert(basis[i].begin(), type);
         }
 
+        double diagLength = sqrt(dimensions[0]*dimensions[0] +
+                                dimensions[1]*dimensions[1] +
+                                dimensions[2]*dimensions[2]);
+
+        int numCells = static_cast<int>(ceil(diagLength/latConst));
+
         vector<dvec_t> grain = basis;
 
         // For all directions
         for (vector<dvec_t>::size_type i=0; i<dimensions.size(); i++) {
-            numCells = static_cast<int>(ceil(dimensions[i]/latConst));
 
             // For each cell
             for (int j=1; j<numCells; j++) {
