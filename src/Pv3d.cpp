@@ -166,7 +166,7 @@ int main() {
     clock_t t1 = clock();
    
     // TODO: genImages needs to shift by boxDims; make adaptable to rectangles
-    double sideLength = 100;
+    double sideLength = 20;
     dvec_t boxDims = {sideLength,sideLength,sideLength};
     vector<dvec_t> boxMinMax;
 
@@ -178,9 +178,6 @@ int main() {
     int numGrains = 4;
     vector<dvec_t> centers = Pv3d::genCenters(numGrains, boxDims);
     Tools::printArr(centers);
-    //vector<dvec_t> centers;
-    //centers.push_back(dvec_t {1,0,0});
-    //centers.push_back(dvec_t {10,0,0});
     
     vector<dvec_t> basis;
     vector<dvec_t> basis2;
@@ -202,11 +199,6 @@ int main() {
 
     vector<dvec_t> images = Pv3d::genImages(centers, boxDims);
 
-    //cout << "Num centers: " << images.size() << endl;
-    //cout << "Images: " << endl;
-    //Tools::printArr(images);
-    //cout << "Done" << endl;
-
     // Iterate over each family of regions
     for (int j=0; j<numGrains; j++) {
 
@@ -216,73 +208,36 @@ int main() {
         double z = static_cast<double>(rand()) / RAND_MAX;
         dvec_t axis = {x,y,z};
 
-        //cout << "Family: " << j << endl;
-
         // Iterate over all 27 images
         for (int i=j*27; i<(j+1)*27; i++) {
             //cout << "Image: " << i << endl;
 
-            // TODO: rotate each family of images by same amount
-            // TODO: trim any atoms that aren't in family of regions
-            // TODO: trim any atoms outside of original box dimensions
-
             center = images[i];
-            //Tools::scaleVector(center, sideLength);
             j = static_cast<int>(floor(i/27)); // images are in blocks of 27
-            //cout << "j: " << j << endl;
 
             vector<dvec_t> grain1;
             vector<dvec_t> grain2;
 
-            //cout << "Center: ";
-            //Tools::printArr(center);
-
-            //cout << "Axis: ";
-            //Tools::printArr(axis);
-
-            //cout << "Theta: " << theta << endl;
-
-            // TODO: color grains to verify
-            grain1 = Grain::genGrain(boxDims, basis, latConst, j+1);
-            grain2 = Grain::genGrain(boxDims, basis2, latConst, j+1);
+            grain1 = Grain::genGrain(boxDims, basis, latConst, 1.0);
+            grain2 = Grain::genGrain(boxDims, basis2, latConst, 2.0);
             grain1 = Tools::joinArrays(grain1, grain2);
 
             Tools::rotate(grain1,theta,axis);
 
             Grain::shiftGrain(grain1, center);
 
-            //if (fullCrystal.size()>0) {
-            //    fullCrystal = Tools::joinArrays(fullCrystal, grain1);
-            //} else {
-            //    fullCrystal = grain1;
-            //}
-
             for (vector<dvec_t>::size_type a=0; a<grain1.size(); a++) {
                 if (Pv3d::inBox(grain1[a], boxMinMax) &&
                         Pv3d::inRegion(grain1[a], images, j)) {
-                    //cout << "Point ";
-                    //Tools::printArr(grain1[a]);
                     fullCrystal.push_back(grain1[a]);
-                } else {
-                    //cout << "FALSE" << endl;
                 }
             }
-
-        //center.insert(center.begin(), 3.0);
-        //fullCrystal.push_back(center);
-
         }
-
-        //for (vector<dvec_t>::size_type a=0; a<grain1.size(); a++) {
-        //    if (Pv3d::inRegion(grain1[a], centers, j)) {
-        //        fullCrystal.push_back(grain1[a]);
-        //    }
-        //}
     }
     Lammps::writeData("data.test", fullCrystal);
 
     clock_t t2 = clock();
     float diff = static_cast<float>(t2)-static_cast<float>(t1);
 
-    cout << "Runtime: " << diff << endl;
+    cout << "Runtime: " << diff/CLOCKS_PER_SEC << " seconds"<< endl;
 }
