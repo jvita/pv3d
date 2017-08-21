@@ -11,6 +11,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <time.h>
+#include <string>
 #include "define.h"
 #include "Tools.h"
 #include "Grain.h"
@@ -77,9 +78,7 @@ namespace Pv3d {
                 smallestDist = checkDist;
 
                 // Each block of 27 corresponds to one 'family' of regions
-                //cout << "i = " << i << endl;
                 closestCenter = static_cast<int>(floor(i/27));
-                //cout << "closest = " << closestCenter << endl;
             }
         }
 
@@ -87,7 +86,6 @@ namespace Pv3d {
         if (closestCenter == regionId)
             return true;
         else {
-            //cout << "Closer to: " << closestCenter << endl;
             return false;
         }
     }
@@ -166,7 +164,11 @@ int main() {
     clock_t t1 = clock();
    
     // TODO: genImages needs to shift by boxDims; make adaptable to rectangles
-    double sideLength = 20;
+    double sideLength;
+
+    cout << "Box side length: ";
+    cin >> sideLength;
+
     dvec_t boxDims = {sideLength,sideLength,sideLength};
     vector<dvec_t> boxMinMax;
 
@@ -174,10 +176,18 @@ int main() {
     boxMinMax.push_back(dvec_t {0, sideLength});
     boxMinMax.push_back(dvec_t {0, sideLength});
 
-    double latConst = 5.0;
-    int numGrains = 4;
+    double latConst;
+    int numGrains;
+    string fname;
+
+    cout << "Lattice constant: ";
+    cin >> latConst;
+    cout << "Number of grains: ";
+    cin >> numGrains;
+    cout << "Output file name: ";
+    cin >> fname;
+
     vector<dvec_t> centers = Pv3d::genCenters(numGrains, boxDims);
-    Tools::printArr(centers);
     
     vector<dvec_t> basis;
     vector<dvec_t> basis2;
@@ -210,14 +220,17 @@ int main() {
 
         // Iterate over all 27 images
         for (int i=j*27; i<(j+1)*27; i++) {
-            //cout << "Image: " << i << endl;
 
             center = images[i];
             j = static_cast<int>(floor(i/27)); // images are in blocks of 27
 
+
+            // Here grain1/2 represent the 'grains' of the 1st and 2nd basis
+            // For more/less bases, delete grain2 or add grain3, grain4, ...
             vector<dvec_t> grain1;
             vector<dvec_t> grain2;
 
+            // 1.0 and 2.0 should correspond to grain1 grain2
             grain1 = Grain::genGrain(boxDims, basis, latConst, 1.0);
             grain2 = Grain::genGrain(boxDims, basis2, latConst, 2.0);
             grain1 = Tools::joinArrays(grain1, grain2);
@@ -234,7 +247,8 @@ int main() {
             }
         }
     }
-    Lammps::writeData("data.test", fullCrystal);
+
+    Lammps::writeData(fname, fullCrystal);
 
     clock_t t2 = clock();
     float diff = static_cast<float>(t2)-static_cast<float>(t1);

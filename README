@@ -1,5 +1,16 @@
 Periodic 3-D Voronoi tesselation
 
 --------------------------------------------------------------------------------
-TODO:
-    - Add unit testing; see https://github.com/unittest-cpp/unittest-cpp
+To compile,  simply "cd src" then "make pv3d". This will produce the 'pv3d'
+executable, which can then be run from the command line.
+
+NOTE: For now, in order to edit the basis vectors, number of bases, etc. you
+must make manual changes in the main() method inside of Pv3d.cpp. In the future
+I plan to make this more automatic.
+
+WARNING: This code has only been lightly tested! Before running any simulations,
+double check that your structure looks as expected.
+
+If you have any compilation issues or need help editing the main() method,
+contact Josh Vita at vita.joshua@gmail.com
+--------------------------------------------------------------------------------
